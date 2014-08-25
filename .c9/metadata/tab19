@@ -1,0 +1,1 @@
+{"changed":false,"filter":false,"title":"Jasmine Tests - Stopped","tooltip":"Jasmine Tests - Stopped","value":"","undoManager":{"mark":0,"position":-1,"stack":[]},"output":{"id":"output411535","width":1168,"height":241,"scrollTop":-1,"config":{"debug":true,"name":"Jasmine Tests","command":"run_tests.js spec/*.js","runner":"Node.js (default)"}},"timestamp":1408933328041}
