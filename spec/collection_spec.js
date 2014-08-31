@@ -105,7 +105,7 @@ describe('Collection', function() {
         }); 
     });
     
-    desribe('length()', function() {
+    describe('length()', function() {
         it('returns the number of elements in the collection', function() {
             expect(collection.length()).toBe(3);
             collection.add(7);
