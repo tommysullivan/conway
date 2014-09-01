@@ -37,6 +37,16 @@ describe('Collection', function() {
         })
     }); 
     
+    describe('clone()', function() {
+        it('should return a new instance of Collection which is an independent clone of the original collection', function() {
+            var clone = collection.clone();
+            collection.add(8);
+            clone.add(9);
+            expect(collection.toArray()).toEqual([1,2,3,8]);
+            expect(collection.toArray()).toEqual([1,2,3,9]);
+        }); 
+    });
+    
     describe('add(e)', function() {
         it('should add the passed element to the end of the collection', function() {
             collection.add(4);
@@ -81,6 +91,51 @@ describe('Collection', function() {
         });
     });
     
+    describe('remove(e)', function() {
+        describe("when one or more of the collection's elements are equal to e according the == operator", function() {
+            it('should remove those equivalent elements, shifting elements down to unused indices', function() {
+                collection.add(2);
+                collection.add(5);
+                collection.remove(2);
+                expect(collection.toArray()).toEqual([1,3,5]);
+            }); 
+        }); 
+    });
+    
+    describe('firstIndexOf(e)', function() {
+        describe("when one or more of the collection's elements are equal to e according to the == operator", function() {
+            it('should return the index of the first equivalent element', function() {  
+                collection.add(3);
+                var firstIndexOfElement = collection.firstIndexOf(3);
+                expect(firstIndexOfElement).toBe(2);
+            }) 
+        }); 
+        describe("when none of the collection's elements are equal to e according to the == operator", function() {
+            it('should throw an error', function() {
+                function attemptToGetFirstIndexOfItemThatIsNotInCollection() {
+                    collection.firstIndexOf(8);
+                }
+                expect(attemptToGetFirstIndexOfItemThatIsNotInCollection).toThrow();
+            });  
+        });
+    });
+    
+    describe('addCollection(collectionOfItemsToAdd)', function() {
+        it('should add all of the items in the passed collectionOfItemsToAdd to the current collection', function() {
+            var collectionOfItemsToAdd = Collection([7,8,9]);
+            collection.addCollection(collectionOfItemsToAdd);
+            expect(collection.toArray()).toEqual([1,2,3,7,8,9]);
+        }); 
+    });
+    
+    describe('removeCollection(collectionOfItemsToRemove)', function() {
+        it('should remove all of the items in the passed collectionOfItemsToRemove from the current collection', function() {
+            var collectionOfItemsToRemove = Collection([1,3]);
+            collection.removeCollection(collectionOfItemsToRemove);
+            expect(collection.toArray()).toEqual([2]);
+        }); 
+    });
+    
     describe('filter(f)', function() {
         it('should return a new Collection instance containing only those elements e from the original collection for which f(e) is true', function() {
             function isEven(potentiallyEvenNumber) {
@@ -114,7 +169,7 @@ describe('Collection', function() {
     });
     
     describe('forEach(f)', function() {
-        describe('where f is a function f(e, index, collection, causeBreak), such that f is invoked for each element e in the collection, index is the 0-based index of the current element e, collection is a reference to the original collection, and causeBreak is a function which can optionally be called to terminate looping early', function() {
+        describe('where f is a function f(e, index, collection, causeBreak), such that f is invoked for each element e in the collection, index is the 0-based index of the current element e, collection is a reference to the original collection, and causeBreak is a function which can optionally be called from within f in order to force termination of looping', function() {
             var testArray, indexOnWhichToCallCauseBreak;
             
             beforeEach(function() {
