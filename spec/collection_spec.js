@@ -4,7 +4,7 @@ describe('Collection', function() {
     beforeEach(function() {
         internalArray = [1,2,3];
         Collection = require('../collection');
-        collection = Collection(internalArray); 
+        collection = Collection(internalArray,Collection);
     });
     
     it('should be instantiable', function() {
@@ -19,7 +19,7 @@ describe('Collection', function() {
         });
         
         it('should return a native javascript array representation of the collection', function() {
-            expect(secondArrayRepresentationOfCollection).toEqual([1,2,3]); 
+            expect(arrayRepresentationOfCollection).toEqual([1,2,3]); 
         });
         
         describe('when the returned array is changed', function() {
@@ -43,15 +43,21 @@ describe('Collection', function() {
             collection.add(8);
             clone.add(9);
             expect(collection.toArray()).toEqual([1,2,3,8]);
-            expect(collection.toArray()).toEqual([1,2,3,9]);
+            expect(clone.toArray()).toEqual([1,2,3,9]);
         }); 
     });
     
     describe('add(e)', function() {
+        var result;
+        beforeEach(function() {
+            result = collection.add(4);
+        });
         it('should add the passed element to the end of the collection', function() {
-            collection.add(4);
             expect(collection.toArray()).toEqual([1,2,3,4]);
         }); 
+        it('should not return anything', function() {
+            expect(result).toBeUndefined(); 
+        });
     });
     
     describe('get(i)', function() {
@@ -186,9 +192,9 @@ describe('Collection', function() {
                 it('should call f for each element in collection', function() {
                     indexOnWhichToCallCauseBreak = 5;
                     collection.forEach(callThisForEachElementInCollection);
-                    expect(testArray[0]).toEqual(1);
-                    expect(testArray[1]).toEqual(2);
-                    expect(testArray[2]).toEqual(3);    
+                    expect(testArray[0]).toBe(1);
+                    expect(testArray[1]).toBe(2);
+                    expect(testArray[2]).toBe(3);    
                     expect(testArray.length).toBe(3);
                 });    
             }); 
@@ -196,8 +202,8 @@ describe('Collection', function() {
                 it('should call f for only those elements up to and including the element in which causeBreak was invoked, but not beyond', function() {
                     indexOnWhichToCallCauseBreak = 1;
                     collection.forEach(callThisForEachElementInCollection);
-                    expect(testArray[0]).toEqual(1);
-                    expect(testArray[1]).toEqual(2);   
+                    expect(testArray[0]).toBe(1);
+                    expect(testArray[1]).toBe(2);   
                     expect(testArray[2]).toBeUndefined();
                     expect(testArray.length).toBe(2);    
                 });
