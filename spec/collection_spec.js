@@ -197,8 +197,8 @@ describe('Collection', function() {
                 if(indexOnWhichToCallCauseBreak==currentIndex) forceBreak(22);
             }
             
-            describe('when an f is passed which does not invoke the causeBreak function', function() {
-                it('should call f for each element in collection', function() {
+            describe('when an f is passed which does not invoke the forceBreak function', function() {
+                it('should call f for each element in collection and return the second argument', function() {
                     indexOnWhichToCallCauseBreak = 5;
                     var retVal = collection.forEach(callThisForEachElementInCollection, 77);
                     expect(testArray[0]).toBe(1);
@@ -208,8 +208,8 @@ describe('Collection', function() {
                     expect(retVal).toBe(77);
                 });    
             }); 
-            describe('when an f is passed which does invoke causeBreak() before the iteration is complete', function() {
-                it('should call f for only those elements up to and including the element in which causeBreak was invoked, but not beyond', function() {
+            describe('when an f is passed which does invoke forceBreak() before the iteration is complete', function() {
+                it('should call f for only those elements up to and including the element in which forceBreak was invoked, but not beyond, returning the argument passed to forceBreak()', function() {
                     indexOnWhichToCallCauseBreak = 1;
                     var retVal = collection.forEach(callThisForEachElementInCollection, 77);
                     expect(testArray[0]).toBe(1);
