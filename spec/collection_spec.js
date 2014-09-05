@@ -1,10 +1,12 @@
 describe('Collection', function() {
-    var Collection, collection, internalArray;
+    var Collection, SweetieException, collection, internalArray;
     
     beforeEach(function() {
         internalArray = [1,2,3];
         Collection = require('../collection');
         collection = Collection(internalArray,Collection);
+        SweetieException = require('../exception');
+        
     });
     
     it('should be instantiable', function() {

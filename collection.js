@@ -1,4 +1,4 @@
-module.exports = function(internalArray,Collection){
+module.exports = function(internalArray,Collection,SweetieException,collection){
     return {
         toArray:function(){
             var copyOfArray = internalArray.slice(0); //we could reduce these two lines to one, but since it adds *clarity* i think it is best as two. :) clarity in that slice(0) is not self explanatory!
@@ -11,26 +11,18 @@ module.exports = function(internalArray,Collection){
             var independentInternalArray = this.toArray();
             var newIndependentInstance = Collection(independentInternalArray); 
             return newIndependentInstance;
-        }, //<------yay I did it!!
+        }, 
         get:function(indx){
-            if (indx < internalArray.length){
+            if (indx < internalArray.length && indx >= 0 && indx === (indx|0)){
                return internalArray[indx];
             }
             else
             { 
-                throw new sweetieException(indx);  
-            }
-        },
-        sweetieException:function(indx) {
-            this.indx = indx;
-            this.message1 = "This subscript";
-            this.message2 = "is out of range, sweetie!!";
-            this.toString = function() {
-            return this.message1 + this.indx + this.message2;
+                throw new SweetieException(indx);  
             }
         },
         hasIndex:function(indx){
-           if (indx < internalArray.length){
+           if (indx < internalArray.length && indx >= 0 && indx === (indx|0)){
                return true;
             }
             else
@@ -40,12 +32,28 @@ module.exports = function(internalArray,Collection){
         },
         map:function(fnct){
             var mappedArray = [];
-            var j = 0;
-            for (; j < internalArray.length; j++){
-               mappedArray[j]=fnct(internalArray[j]);
-               }
+            for(var j in internalArray) { 
+                mappedArray[j]=fnct(internalArray[j]);
+            }
             var newInstance = Collection(mappedArray); 
             return newInstance;    
+        },
+        remove:function(copyCat){
+            for(var j in internalArray) { 
+                 if (internalArray[j]==copyCat){
+                     internalArray.splice(j,1);
+                 }
+             }
+        },
+        firstIndexOf:function(copyCat){
+            var j = 0;
+            for(; j < internalArray.length; j++) { 
+                 if (internalArray[j]==copyCat){return j};
+                 if (j==internalArray.length-1){throw "ERROR!"};
+            }
+        },
+        addCollection: function(collection){
+            internalArray=internalArray.concat(collection.toArray());
         }
         
         //also, i just pushed the latest to github so we have a recent backup in version control
