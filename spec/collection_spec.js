@@ -1,12 +1,13 @@
+//i moved the loading of the files up to the top - no need to load them over and over in the beforeEach
+var Collection = require('../collection'); 
+var SweetieException = require('../exception');
+
 describe('Collection', function() {
-    var Collection, SweetieException, collection, internalArray;
+    var collection, internalArray;
     
     beforeEach(function() {
         internalArray = [1,2,3];
-        Collection = require('../collection');
-        collection = Collection(internalArray,Collection);
-        SweetieException = require('../exception');
-        
+        collection = Collection(internalArray,Collection); //<- are you missing an argument here sweetie?
     });
     
     it('should be instantiable', function() {
@@ -92,10 +93,16 @@ describe('Collection', function() {
     });
     
     describe('map(f)', function() {
-        it('should return a new Collection instance containing f(e) for each element e in the original collection, in the original order', function() {
+        it('should return a new Collection instance containing elements equal to f(e, i, c) for each element e at index i in c, where c is this Collection instance', function() {
             function double(numberToDouble) { return numberToDouble * 2 }
-            var newCollection = collection.map(double); 
+            var mockMap = jasmine.createSpy('mockMap');
+            mockMap.andCallFake(double);
+            var newCollection = collection.map(mockMap); 
             expect(newCollection.toArray()).toEqual([2,4,6]);
+            expect(mockMap.calls[0].args).toEqual([1,0,collection]);
+            expect(mockMap.calls[1].args).toEqual([2,1,collection]);
+            expect(mockMap.calls[2].args).toEqual([3,2,collection]);
+            expect(mockMap.calls.length).toEqual(3);
         });
     });
     
@@ -176,38 +183,40 @@ describe('Collection', function() {
         });
     });
     
-    describe('forEach(f)', function() {
-        describe('where f is a function f(e, index, collection, causeBreak), such that f is invoked for each element e in the collection, index is the 0-based index of the current element e, collection is a reference to the original collection, and causeBreak is a function which can optionally be called from within f in order to force termination of looping', function() {
+    describe('forEach(f, rN)', function() {
+        describe('where f is a function f(e, index, collection, forceBreak), such that f is invoked for each element e in the collection, index is the 0-based index of the current element e, collection is a reference to the original collection, and forceBreak(rF) is a function which can optionally be called from within f in order to force termination of looping. forEach(f, rN) shall return rN if looping completes normally, and rF if forceBreak is called.', function() {
             var testArray, indexOnWhichToCallCauseBreak;
             
             beforeEach(function() {
                 testArray = []; 
             });   
             
-            function callThisForEachElementInCollection(currentElement, currentIndex, collectionBeingIteratedOver, causeBreak) {
+            function callThisForEachElementInCollection(currentElement, currentIndex, collectionBeingIteratedOver, forceBreak) {
                 testArray[currentIndex]=currentElement;
                 expect(collectionBeingIteratedOver).toBe(collection);
-                if(indexOnWhichToCallCauseBreak==currentIndex) causeBreak();
+                if(indexOnWhichToCallCauseBreak==currentIndex) forceBreak(22);
             }
             
             describe('when an f is passed which does not invoke the causeBreak function', function() {
                 it('should call f for each element in collection', function() {
                     indexOnWhichToCallCauseBreak = 5;
-                    collection.forEach(callThisForEachElementInCollection);
+                    var retVal = collection.forEach(callThisForEachElementInCollection, 77);
                     expect(testArray[0]).toBe(1);
                     expect(testArray[1]).toBe(2);
                     expect(testArray[2]).toBe(3);    
                     expect(testArray.length).toBe(3);
+                    expect(retVal).toBe(77);
                 });    
             }); 
             describe('when an f is passed which does invoke causeBreak() before the iteration is complete', function() {
                 it('should call f for only those elements up to and including the element in which causeBreak was invoked, but not beyond', function() {
                     indexOnWhichToCallCauseBreak = 1;
-                    collection.forEach(callThisForEachElementInCollection);
+                    var retVal = collection.forEach(callThisForEachElementInCollection, 77);
                     expect(testArray[0]).toBe(1);
                     expect(testArray[1]).toBe(2);   
                     expect(testArray[2]).toBeUndefined();
-                    expect(testArray.length).toBe(2);    
+                    expect(testArray.length).toBe(2); 
+                    expect(retVal).toBe(22);
                 });
             });
         });
