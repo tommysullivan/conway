@@ -1,13 +1,16 @@
-//i moved the loading of the files up to the top - no need to load them over and over in the beforeEach
+/*
+In Node.js, the "require" function takes one parameter, the path to a javascript file. It returns
+whatever the value of module.exports is *in that file*
+*/
+
 var Collection = require('../collection'); 
-var SweetieException = require('../exception');
 
 describe('Collection', function() {
     var collection, internalArray;
     
     beforeEach(function() {
         internalArray = [1,2,3];
-        collection = Collection(internalArray,Collection); //<- are you missing an argument here sweetie?
+        collection = Collection(internalArray); 
     });
     
     it('should be instantiable', function() {
@@ -156,9 +159,17 @@ describe('Collection', function() {
             function isEven(potentiallyEvenNumber) {
                 return potentiallyEvenNumber % 2 == 0;     
             }
-            var onlyEvenNumbers = collection.filter(isEven);
-            var arrayRepresentationOfCollectionContainingOnlyEvenNumbers = onlyEvenNumbers.toArray();
+            var onlyEvenNumbersCollection = collection.filter(isEven);
+            var arrayRepresentationOfCollectionContainingOnlyEvenNumbers = onlyEvenNumbersCollection.toArray();
             expect(arrayRepresentationOfCollectionContainingOnlyEvenNumbers).toEqual([2]);
+            
+            function isOdd(potentiallyOddNumber) {
+                return potentiallyOddNumber % 2 == 1;     
+            }
+            
+            var onlyOddNumbersCollection = onlyEvenNumbersCollection.filter(isOdd);
+            var arrayRepresentationOfCollectionContainingOnlyOddNumbers = onlyOddNumbersCollection.toArray();
+            expect(arrayRepresentationOfCollectionContainingOnlyOddNumbers).toEqual([]);
         }); 
     });
     
