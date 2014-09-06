@@ -1,22 +1,12 @@
+Tommy & Esa-Matti's Working Project
+-----------------------------------
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+We are learning TDD with Jasmine and JavaScript to create simple Collection class. To run the tests, we go to Run -> Run Configurations -> Jasmine Tests.
 
+We also have an implementation of Conway's Game of Life. To run this we just right click conway_tommy.js and say "Run". From command line, we can run it
+via command "node conway_tommy".
 
-Welcome to your Node.js project on Cloud9 IDE!
+We even have a web server that came with Cloud9 when we created this project in our workspace called server.js which we haven't used.
 
-This chat example showcases how to use `socket.io` with a static `express` server.
-
-## Running the server
-
-1) Open `server.js` and start the app by clicking on the "Run" button in the top menu.
-
-2) Alternatively you can launche the app from the Terminal:
-
-    $ node server.js
-
-Once the server is running, open the project in the shape of 'https://projectname-c9-username.c9.io/'. As you enter your name, watch the Users list (on the left) update. Once you press Enter or Send, the message is shared with all connected clients.
+To save to github, we open a new Terminal window with Window -> New Terminal. Then git add -A followed by git commit -m "commit message" and finally 
+git push origin master to copy the latest repo out to github using our github credentials.
