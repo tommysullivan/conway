@@ -2,6 +2,7 @@ Tommy & Esa-Matti's Working Project
 -----------------------------------
 
 We are learning TDD with Jasmine and JavaScript to create simple Collection class. To run the tests, we go to Run -> Run Configurations -> Jasmine Tests.
+From the command line, we can run tests using command: node run_tests.js spec/*.js
 
 We also have an implementation of Conway's Game of Life. To run this we just right click conway_tommy.js and say "Run". From command line, we can run it
 via command "node conway_tommy".
