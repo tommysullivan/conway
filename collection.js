@@ -57,15 +57,21 @@ module.exports = function Collection(internalArray) {
             return breakWasForced ? valueToReturnIfLoopingIsBroken : valueToReturnIfLoopingCompletesNormally;
         },
         removeCollection: function(collection){
-            //TODO: Let's rewrite this, reusing both forEach() as well as remove()
+            //TODO: Let's rewrite this, reusing both forEach() as well as remove(). One at a time though!
+            //it is probably easiest to reuse the remove() first, leaving the existing looping structure
+            //then once that test passes, you can figure out how to change the looping structure to use forEach
             var arrayToBeRemoved=collection.toArray();  
             var k = 0;
-             for(var j in internalArray) { 
-                 if (internalArray[j]==arrayToBeRemoved[k]){
-                     internalArray.splice(j,1);
-                     k++;
-                 }
-             }
+            for(var j in internalArray) { 
+                if (internalArray[j]==arrayToBeRemoved[k]){
+                    internalArray.splice(j,1);
+                    k++;
+                }
+            }
+            //One more thing, this is a common problem in programming - when looping through
+            //something, but also modifying the thing you are looping through while you are still looping
+            //can you think of some potentially dangerous consequences of this approach? Can you expose
+            //those dangers with some new tests in our collection_spec.js and then come back and fix them?
         },
         filter: function(predicateFunction) {
             //TODO: Rewrite this using forEach() - there is an example in the map() implementation above that you can use as guidance!
