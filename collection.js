@@ -9,14 +9,15 @@ module.exports = function Collection(internalArray) {
         },
         clone:function(){
             var independentInternalArray = this.toArray();
-            return Collection(independentInternalArray); 
+            var newIndependentInstance = Collection(independentInternalArray); 
+            return newIndependentInstance;
         }, 
-        get:function(index){
-            if (index < internalArray.length && index >= 0 && index === (index|0)) return internalArray[index];
-            throw "This subscript " + index + " is out of range, sweetie!!";
+        get:function(indx){
+            if (indx < internalArray.length && indx >= 0 && indx === (indx|0)) return internalArray[indx];
+            throw "This subscript " + indx + " is out of range, sweetie!!";
         },
-        hasIndex:function(index){
-            return index < internalArray.length && index >= 0 && index === (index|0);
+        hasIndex:function(indx){
+            return indx < internalArray.length && indx >= 0 && indx === (indx|0);
         },
         map:function(mapperFunction){
             var mappedArray = [];
@@ -66,7 +67,7 @@ module.exports = function Collection(internalArray) {
              }
         },
         filter: function(predicateFunction) {
-            //TODO: Rewrite this using forEach() - there is an example of using forEach in map() above which I added for you :)
+            //TODO: Rewrite this using forEach() - there is an example in the map() implementation above that you can use as guidance!
             var filteredArray = [];
             for(var j=0; j<internalArray.length;j++){
                 var currentElement = internalArray[j];
@@ -76,11 +77,25 @@ module.exports = function Collection(internalArray) {
             }
             return Collection(filteredArray);
         },
-        length: function() {
-            return internalArray.length;
+        contains: function(soughtElement){
+            for (var j=0;j<internalArray.length;j++){
+                //sweetie! your code was creating a new Colleciton instnace, passing a shared copy of this instance's internalArray,
+                //then caling toArray() on that new Collection instance, then checking the jth element of the resulting
+                //array! That is a lot of hoops to go through, all you really need to do is check
+                //this Collection instance's internalArray[j] directly to see if it equals soughtElement. No need to create
+                //a new Colleciton instance let alone immediately turn that collection back into an array, just to check the jth element :)
+                if(internalArray[j]===soughtElement) return true;
+                // if (Collection(internalArray).toArray()[j]===soughtElement){return true};
+            }
+            //and don't forget to return false if the loop completes! (though the test passes because if you
+            //dont return then the value will be undefined, which matches to expect().toBeFalsy() condition )
+            return false;
         },
-        contains: function(soughtItem) {
-            //TODO: Implement this method sweetie! :)
+        length: function() {
+            //sweetie, again, here all we need to do is return the length of this collection instance's 
+            //internalArray!
+            return internalArray.length;
+            // return Collection(internalArray).toArray().length;
         }
     }
 }
