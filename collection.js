@@ -21,9 +21,10 @@ module.exports = function Collection(internalArray) {
         },
         map:function(mapperFunction){
             var mappedArray = [];
-            this.forEach(function(item, index, collection) {
-                mappedArray[index]=mapperFunction(item, index, collection); 
-            });
+            function doThisForEachItemInCollection(currentItem, currentIndex, collection) {
+                mappedArray[currentIndex]=mapperFunction(currentItem, currentIndex, collection);    
+            }
+            this.forEach(doThisForEachItemInCollection);
             return Collection(mappedArray);
         },
         remove:function(itemToRemove) {
@@ -78,6 +79,7 @@ module.exports = function Collection(internalArray) {
             return Collection(filteredArray);
         },
         contains: function(soughtElement){
+            //TODO: Bonus points - rewrite this using forEach()! it might be tough!
             for (var j=0;j<internalArray.length;j++){
                 //sweetie! your code was creating a new Colleciton instnace, passing a shared copy of this instance's internalArray,
                 //then caling toArray() on that new Collection instance, then checking the jth element of the resulting
