@@ -74,7 +74,7 @@ module.exports = function Collection(internalArray) {
             //those dangers with some new tests in our collection_spec.js and then come back and fix them?
         },
         filter: function(predicateFunction) {
-            //TODO: Rewrite this using forEach() - there is an example in the map() implementation above that you can use as guidance!
+            //TODO FIRST: Rewrite this using forEach() - there is an example in the map() implementation above that you can use as guidance!
             var filteredArray = [];
             for(var j=0; j<internalArray.length;j++){
                 var currentElement = internalArray[j];

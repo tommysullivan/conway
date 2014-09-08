@@ -194,7 +194,60 @@ describe('Collection', function() {
         });
     });
     
-    describe('forEach(f, rN)', function() {
+    describe('regular for syntax example', function() {
+        var items = [1,5,8,2,4];
+        var sum = 0;
+        for(var index=0; index<items.length; index++) {
+            var element = items[index];
+            if(element==2) break;
+            if(element==5) continue;
+            sum = sum + element;
+        }
+        expect(sum).toBe(9);
+        //1. used the index of the current position in the loop
+        //2. used the 'collection' (in this case, an array) inside the loop
+        //3. used the current element
+        //4. used a mechanism to conditionally "break" out of the loop
+        //5. used a mechanism to conditionally jump to the next iteration of the loop
+        //6. did something to affect a variable that was defined outside the loop
+        
+        //forEach method is a functional way of expressing and solving the same problems as traditional for each (1=6)
+        var messages = ['fsdfsfd','sdfsdfs','sdfsdfsdfs','sdfsdfsdf']
+        
+        //either we loop traiditionally
+        // for(var c=0; c<messages;length; c++) {
+        //     console.log(message[c]);
+        // }
+        
+        // //loop using forEach (functional style - closer to lambda calculus)
+        // messages.forEach(console.log);
+        
+        // function writeArrayIndexAndValueToConsoleButBreakAndWriteTDubsKittyKittyIfValueIsTDubs(value, currentIndex) {
+        //     if(value=='tdubs') {
+        //         console.log('tdubs kitty kitty!');
+        //         return true;
+        //     }
+        //     console.log('current index = '+currentIndex+' and value = '+value);
+        //     return false;
+        // }
+        
+        // function otherFunc(value, currentIndex) {}
+        
+        // function forEach(arrayOfItemsToLoopOver, functionToCallForEachItem) {
+        //     //we have to invoke functionToCallForEachItem the number of times there are elements in the array, each time passing in the array and the index we are at
+        //     for (var sss=0;sss<arrayOfItemsToLoopOver.length;sss++){
+        //         var value = arrayOfItemsToLoopOver[sss];
+        //         var shouldBreak = functionToCallForEachItem(value,sss);
+        //         if (shouldBreak) break;
+        //     }
+            
+        // }
+        
+        // var itemsToWriteToConsoleInFancyWay = ['tommy','sweetie','sex','tdubs','taxes'];
+        // forEach(itemsToWriteToConsoleInFancyWay, writeArrayIndexAndValueToConsoleButBreakIfValueIsTDubs);
+    });
+    
+    describe('forEach(f, rN?)', function() {
         describe('where f is a function f(e, index, collection, forceBreak), such that f is invoked for each element e in the collection, index is the 0-based index of the current element e, collection is a reference to the original collection, and forceBreak(rF) is a function which can optionally be called from within f in order to force termination of looping. forEach(f, rN) shall return rN if looping completes normally, and rF if forceBreak is called.', function() {
             var testArray, indexOnWhichToCallCauseBreak;
             
