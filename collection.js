@@ -44,17 +44,14 @@ module.exports = function Collection(internalArray) {
         //i wrote this for my sweetie. i think it would've been very challenging and you could've done it. but
         //i want you to review it and ensure you would be capable to explain how it works with little trouble if I were to ask
         //instead of deriving it yourself. Notice the clever use of closures. But also pay attention to how it is used.
-        forEach: function(callback, valueToReturnIfLoopingCompletesNormally) {
-            var valueToReturnIfLoopingIsBroken;
-            var breakWasForced = false;
-            function forceBreak(requestedReturnValue) {
-                breakWasForced = true;
-                valueToReturnIfLoopingIsBroken = requestedReturnValue;
+        forEach: function(functionToCallForEachItem) {
+            var arrayOfItemsToLoopOver = this.toArray();
+            for (var currentIndex=0; currentIndex<arrayOfItemsToLoopOver.length; currentIndex++){
+                var value = arrayOfItemsToLoopOver[currentIndex];
+                var shouldBreak = functionToCallForEachItem(value,currentIndex,this);
+                if (shouldBreak===false) return false;
             }
-            for(var i=0; i<internalArray.length && !breakWasForced; i++) {
-                callback(internalArray[i], i, this, forceBreak);
-            }
-            return breakWasForced ? valueToReturnIfLoopingIsBroken : valueToReturnIfLoopingCompletesNormally;
+            return true;
         },
         removeCollection: function(collection){
             //TODO: Let's rewrite this, reusing both forEach() as well as remove(). One at a time though!
@@ -76,13 +73,28 @@ module.exports = function Collection(internalArray) {
         filter: function(predicateFunction) {
             //TODO FIRST: Rewrite this using forEach() - there is an example in the map() implementation above that you can use as guidance!
             var filteredArray = [];
-            for(var j=0; j<internalArray.length;j++){
-                var currentElement = internalArray[j];
-                if (predicateFunction(currentElement)) {
-                    filteredArray.push(currentElement);
-                }
-            }
+            //  function doThisForEachItem(internalArray,index,collection){ <- totally wrong cuz param 1 is not array
+            //  function doThisForEachItem(currentItem, currentIndex, collection) { <- works, but we do not use 
+            //either currentIndex or collection so we need not write them (javascript will just throw them out)
+            function doThisForEachItem(currentItem) { //<- 3 args passed, but we only need first, so don't need to write other two.
+                //  var currentItem = internalArray[index];
+                 if (predicateFunction(currentItem)) {filteredArray.push(currentItem)};
+             }
+            this.forEach(doThisForEachItem);
             return Collection(filteredArray);
+  
+            /*
+            
+            ATTENTION SWEETIE!
+            
+            Make sure you save to github after any significant work! You see how flaky cloud9 can be!! :)
+            Also, do me a favor and any time you do something that is in comments, just delete the comments
+            to keep the code nice and tidy!
+            
+            Comments in learning mode is ok but ideally code is self-explanatory (using good identifer names and small functions)
+            Ideally there would be no comments inside any file! :)
+            
+            */
         },
         contains: function(soughtElement){
             //TODO: Bonus points - rewrite this using forEach()! it might be tough!

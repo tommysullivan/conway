@@ -204,51 +204,11 @@ describe('Collection', function() {
             sum = sum + element;
         }
         expect(sum).toBe(9);
-        //1. used the index of the current position in the loop
-        //2. used the 'collection' (in this case, an array) inside the loop
-        //3. used the current element
-        //4. used a mechanism to conditionally "break" out of the loop
-        //5. used a mechanism to conditionally jump to the next iteration of the loop
-        //6. did something to affect a variable that was defined outside the loop
-        
-        //forEach method is a functional way of expressing and solving the same problems as traditional for each (1=6)
-        var messages = ['fsdfsfd','sdfsdfs','sdfsdfsdfs','sdfsdfsdf']
-        
-        //either we loop traiditionally
-        // for(var c=0; c<messages;length; c++) {
-        //     console.log(message[c]);
-        // }
-        
-        // //loop using forEach (functional style - closer to lambda calculus)
-        // messages.forEach(console.log);
-        
-        // function writeArrayIndexAndValueToConsoleButBreakAndWriteTDubsKittyKittyIfValueIsTDubs(value, currentIndex) {
-        //     if(value=='tdubs') {
-        //         console.log('tdubs kitty kitty!');
-        //         return true;
-        //     }
-        //     console.log('current index = '+currentIndex+' and value = '+value);
-        //     return false;
-        // }
-        
-        // function otherFunc(value, currentIndex) {}
-        
-        // function forEach(arrayOfItemsToLoopOver, functionToCallForEachItem) {
-        //     //we have to invoke functionToCallForEachItem the number of times there are elements in the array, each time passing in the array and the index we are at
-        //     for (var sss=0;sss<arrayOfItemsToLoopOver.length;sss++){
-        //         var value = arrayOfItemsToLoopOver[sss];
-        //         var shouldBreak = functionToCallForEachItem(value,sss);
-        //         if (shouldBreak) break;
-        //     }
-            
-        // }
-        
-        // var itemsToWriteToConsoleInFancyWay = ['tommy','sweetie','sex','tdubs','taxes'];
-        // forEach(itemsToWriteToConsoleInFancyWay, writeArrayIndexAndValueToConsoleButBreakIfValueIsTDubs);
     });
     
     describe('forEach(f, rN?)', function() {
-        describe('where f is a function f(e, index, collection, forceBreak), such that f is invoked for each element e in the collection, index is the 0-based index of the current element e, collection is a reference to the original collection, and forceBreak(rF) is a function which can optionally be called from within f in order to force termination of looping. forEach(f, rN) shall return rN if looping completes normally, and rF if forceBreak is called.', function() {
+        
+        describe('where f is a function f(e, index, collection)', function() {
             var testArray, indexOnWhichToCallCauseBreak;
             
             beforeEach(function() {
@@ -258,29 +218,67 @@ describe('Collection', function() {
             function callThisForEachElementInCollection(currentElement, currentIndex, collectionBeingIteratedOver, forceBreak) {
                 testArray[currentIndex]=currentElement;
                 expect(collectionBeingIteratedOver).toBe(collection);
-                if(indexOnWhichToCallCauseBreak==currentIndex) forceBreak(22);
+                if(indexOnWhichToCallCauseBreak==currentIndex) return false;
             }
             
-            describe('when an f is passed which does not invoke the forceBreak function', function() {
-                it('should call f for each element in collection and return the second argument', function() {
+            describe('when an f is passed which does not return false for any items in collection', function() {
+                it('should call f for each item, passing  items and return true', function() {
                     indexOnWhichToCallCauseBreak = 5;
-                    var retVal = collection.forEach(callThisForEachElementInCollection, 77);
+                    var retVal = collection.forEach(callThisForEachElementInCollection);
                     expect(testArray[0]).toBe(1);
                     expect(testArray[1]).toBe(2);
                     expect(testArray[2]).toBe(3);    
                     expect(testArray.length).toBe(3);
-                    expect(retVal).toBe(77);
-                });    
-            }); 
-            describe('when an f is passed which does invoke forceBreak() before the iteration is complete', function() {
-                it('should call f for only those elements up to and including the element in which forceBreak was invoked, but not beyond, returning the argument passed to forceBreak()', function() {
+                    expect(retVal).toBe(true);
+                });
+            });
+             describe('when an f is passed which returns false for a given item cF', function() {
+                it('should call f for each element in the collection prior to cF and return false', function() {
                     indexOnWhichToCallCauseBreak = 1;
-                    var retVal = collection.forEach(callThisForEachElementInCollection, 77);
+                    var retVal = collection.forEach(callThisForEachElementInCollection);
                     expect(testArray[0]).toBe(1);
                     expect(testArray[1]).toBe(2);   
                     expect(testArray[2]).toBeUndefined();
                     expect(testArray.length).toBe(2); 
-                    expect(retVal).toBe(22);
+                    expect(retVal).toBe(false);
+                });    
+            }); 
+        });
+    });
+    
+    //SWEETIE - I am gonna leave to go biking now. These tests are not finished, but hopefully they way it is broken out is better.
+    //if it is ok you can give it a shot at implementing if you'd like, using SPIES (see jasmine documentation) and/or we can
+    //try to do that together via Skype!! :)
+    describe('forEach(f, rN?) - these tests are not yet implemented!', function() {
+        describe('where f is a function f(e, index, collection)', function() {
+            describe('and f returns false for some element eF in the collection', function() {
+                it('calls f once and exactly once for each element in the collection up to and including eF', function() {
+                    
+                });
+                it('does not call f for any elements after eF', function() {
+                    
+                });
+                it('and the forEach method itself returns false, as in answering the question "Did you get through each?"', function() {
+                    
+                });
+            });
+            describe('each time it calls f for a particular element e in the collection', function() {
+                it('passes that element e as the first parameter', function() {
+                    
+                });
+                it('passes the index of that element e as the second parameter', function() {
+                    
+                });
+                it('passes a reference to the collection object itself as the third parameter', function() {
+                    
+                });
+                it('still works even if the particular function f declares fewer than three parameters', function() {
+                    //all javascript functions can be passed more arguments than they declare. more on that later.
+                });
+            });
+            describe('finally, if f does not return false for ANY elements in the collection', function() {
+                it('the forEach function returns true, as in answering the question "Did you get through each?"', function() {
+                    
                 });
             });
         });
