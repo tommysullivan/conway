@@ -1,4 +1,4 @@
-module.exports = function LieAlgebra(vector3dSpace, scalarField, lieBracket, times, plus) {
+module.exports = function LieAlgebra(vector3dSpace, scalarField, lieBracket, times, plus, equals) {
     return {
         isBilinear: function() { 
             // [a x + b y, z] = a [x, z] + b [y, z]
