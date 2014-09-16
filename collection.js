@@ -61,19 +61,17 @@ module.exports = function Collection(internalArray) {
         },
         filter: function(predicateFunction) {
             var filteredArray = [];
-             function doThisForEachItem(currentItem){
+            function doThisForEachItem(currentItem){
                  if (predicateFunction(currentItem)) {filteredArray.push(currentItem)};
-             }
+            }
             this.forEach(doThisForEachItem);
             return Collection(filteredArray);
         },
         contains: function(soughtElement){
             function doThisForEachItem(currentItem,index,collection){
-               if(currentItem === soughtElement) {
-                   return false;
-               }
+               if(currentItem === soughtElement) return false;
             }
-            return !this.forEach(doThisForEachItem,false);
+            return !this.forEach(doThisForEachItem);
         },
         length: function() {
             return internalArray.length;

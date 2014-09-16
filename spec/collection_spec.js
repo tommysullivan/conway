@@ -252,11 +252,74 @@ describe('Collection', function() {
     describe('forEach(f, rN?) - these tests are not yet implemented!', function() {
         describe('where f is a function f(e, index, collection)', function() {
             describe('and f returns false for some element eF in the collection', function() {
-                it('calls f once and exactly once for each element in the collection up to and including eF', function() {
+                it('calls f once and exactly once for each element in the collection up to and including eF, but not after', function() {
+                    var arrayOfFunctionCallDescriptionObjects = []
+                    var elementForWhichWeShouldReturnFalseThusCausingABreak = 2;
+                    function exampleFunction(element,index,collection){
+                       //if (collection.toArray()[index] == element) return false;   //<- sweetie this is always true! (it is a tautology) not a good test!
+                       var functionCallDescriptionObjectForCurrentCall = {
+                           element: element,
+                           index: index,
+                           collection: collection
+                       }
+                       arrayOfFunctionCallDescriptionObjects.push(functionCallDescriptionObjectForCurrentCall);
+                       if(element == elementForWhichWeShouldReturnFalseThusCausingABreak) return false;  //<- here is a way to make it return false but not all the time!
+                   } 
+                   collection.forEach(exampleFunction);
+                   expect(arrayOfFunctionCallDescriptionObjects.length).toBe(2);
+                   
+                   var firstFunctionCallDescriptionObject = arrayOfFunctionCallDescriptionObjects[0];
+                   expect(firstFunctionCallDescriptionObject.element).toBe(1);
+                   expect(firstFunctionCallDescriptionObject.index).toBe(0);
+                   expect(firstFunctionCallDescriptionObject.collection).toBe(collection);
+                   
+                   var secondFunctionCallDescriptionObject = arrayOfFunctionCallDescriptionObjects[1];
+                   expect(secondFunctionCallDescriptionObject.element).toBe(2);
+                   expect(secondFunctionCallDescriptionObject.index).toBe(1);
+                   expect(secondFunctionCallDescriptionObject.collection).toBe(collection);
+                   
+                  //SweetieQuestion: how to find out how many times exampleFunction was called? is this where the spies come in handy?
+                  
+                  //Answer: So sweetie, i have invented a manual way (without spies) to thoroughly tests the 'it' block (how many times
+                  //called, and in addition, were the arguments passed to each call what i expected?
+                  
+                  //Regarding spies: Very often during testing, we want to set up some kind of fake function that we can pass
+                  //to our code under test (in this case, the forEach is under test), and then after running said code (running the forEach),
+                  //we want to check this fake function to see if it was scalled in the way we expected. That is how we express many
+                  //tests.
+                  
+                  //So, yes, spies come in handy for simplifying this process for us. They solve this general problem of
+                  //"How do i easily create a fake function that i can later introspect to see if it was used as expected?"
+                  
+                  //Actually if you look closely, you will notice that the map() test in this same file uses spies to check on
+                  //how many calls were made, and what the arguments were, without having to declare all the stuff i did manually above.
+                  //what is *not* there is an example of how to force the spy to return false the second time it is true.
+                  
+                  var aSpyBasedFunctionToCallForEachElement = jasmine.createSpy('aSpyBasedFunctionToCallForEachElement');
+                  aSpyBasedFunctionToCallForEachElement.andCallFake(function(e,i,c) { return i < 1; });
+                  collection.forEach(aSpyBasedFunctionToCallForEachElement);
+                  
+                  expect(aSpyBasedFunctionToCallForEachElement.calls.length).toBe(2);
+                  
+                  var firstCallArguments = aSpyBasedFunctionToCallForEachElement.calls[0].args;
+                  expect(firstCallArguments[0]).toBe(1);
+                  expect(firstCallArguments[1]).toBe(0);
+                  expect(firstCallArguments[2]).toBe(collection);
+                  
+                  var secondCallArguments = aSpyBasedFunctionToCallForEachElement.calls[1].args;
+                  expect(secondCallArguments[0]).toBe(2);
+                  expect(secondCallArguments[1]).toBe(1);
+                  expect(secondCallArguments[2]).toBe(collection);
+                  
+                    //hope that helps! Also, what you can do is take this one test at a time. As soon as you think you have a sensible test
+                    //but you find you are repeating something you did in a previous test, that is when you "extract" the common
+                    //stuff up to the nearest common 'beforeEach', and if one does not exist at the closest common ancestor describe block
+                    //just create it. For example, both of the 'it' blocks in this 'describe' block will have some stuff in common -
+                    //they both have a spy that must return false before getting to the end. so that could probably go in a beforeEach
+                    //within this describe block but before the it blocks!
                     
-                });
-                it('does not call f for any elements after eF', function() {
-                    
+                    //LUV MY SWEETIE
+                  
                 });
                 it('and the forEach method itself returns false, as in answering the question "Did you get through each?"', function() {
                     
