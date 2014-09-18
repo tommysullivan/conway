@@ -249,56 +249,25 @@ describe('Collection', function() {
     //SWEETIE - I am gonna leave to go biking now. These tests are not finished, but hopefully they way it is broken out is better.
     //if it is ok you can give it a shot at implementing if you'd like, using SPIES (see jasmine documentation) and/or we can
     //try to do that together via Skype!! :)
-    describe('forEach(f, rN?) - these tests are not yet implemented!', function() {
+    describe('forEach(f)', function() {
         describe('where f is a function f(e, index, collection)', function() {
             describe('and f returns false for some element eF in the collection', function() {
-                it('calls f once and exactly once for each element in the collection up to and including eF, but not after', function() {
-                    var arrayOfArraysWhereEachArrayContainsArgumentsForAFunctionCall = []
-                    var elementForWhichWeShouldReturnFalseThusCausingABreak = 2;
-                    function exampleFunction() {
-                        var arrayOfArgumentsForCurrentCall = Array.prototype.slice.call(arguments);
-                        arrayOfArraysWhereEachArrayContainsArgumentsForAFunctionCall.push(arrayOfArgumentsForCurrentCall);
-                        if(arguments[0] == elementForWhichWeShouldReturnFalseThusCausingABreak) return false;  //<- here is a way to make it return false but not all the time!
-                    } 
-                    exampleFunction.calls = arrayOfArraysWhereEachArrayContainsArgumentsForAFunctionCall;
-                    
-                    collection.forEach(exampleFunction);
-                    expect(arrayOfArraysWhereEachArrayContainsArgumentsForAFunctionCall.length).toBe(2);
-                   
-                    var arrayContainingArgumentsForFirstFunctionCall = arrayOfArraysWhereEachArrayContainsArgumentsForAFunctionCall[0];
-                    expect(arrayContainingArgumentsForFirstFunctionCall[0]).toBe(1);
-                    expect(arrayContainingArgumentsForFirstFunctionCall[1]).toBe(0);
-                    expect(arrayContainingArgumentsForFirstFunctionCall[2]).toBe(collection);
-                   
-                    var arrayContainingArgumentsForSecondFunctionCall = arrayOfArraysWhereEachArrayContainsArgumentsForAFunctionCall[1];
-                    expect(arrayContainingArgumentsForSecondFunctionCall[0]).toBe(2);
-                    expect(arrayContainingArgumentsForSecondFunctionCall[1]).toBe(1);
-                    expect(arrayContainingArgumentsForSecondFunctionCall[2]).toBe(collection);
-                   
-                    //SweetieQuestion: how to find out how many times exampleFunction was called? is this where the spies come in handy?
-                    
-                    //Answer: So sweetie, i have invented a manual way (without spies) to thoroughly tests the 'it' block (how many times
-                    //called, and in addition, were the arguments passed to each call what i expected?
-                    
-                    //Regarding spies: Very often during testing, we want to set up some kind of fake function that we can pass
-                    //to our code under test (in this case, the forEach is under test), and then after running said code (running the forEach),
-                    //we want to check this fake function to see if it was scalled in the way we expected. That is how we express many
-                    //tests.
-                    
-                    //So, yes, spies come in handy for simplifying this process for us. They solve this general problem of
-                    //"How do i easily create a fake function that i can later introspect to see if it was used as expected?"
-                    
-                    //Actually if you look closely, you will notice that the map() test in this same file uses spies to check on
-                    //how many calls were made, and what the arguments were, without having to declare all the stuff i did manually above.
-                    //what is *not* there is an example of how to force the spy to return false the second time it is true.
-                    
-                    var aSpyBasedFunctionToCallForEachElement = jasmine.createSpy();
+                var aSpyBasedFunctionToCallForEachElement, returnValue;
+                
+                beforeEach(function() {
+                    aSpyBasedFunctionToCallForEachElement = jasmine.createSpy();
                     aSpyBasedFunctionToCallForEachElement.andCallFake(function(e,i,c) { return i < 1; });
-                    collection.forEach(aSpyBasedFunctionToCallForEachElement);
-                    
+                    returnValue = collection.forEach(aSpyBasedFunctionToCallForEachElement);
+                });
+                
+                it('and the forEach method itself returns false', function() {
+                    expect(returnValue).toBeFalsy();
+                });
+                
+                it('calls f once and exactly once for each element in the collection up to and including eF, but not after', function() {
                     expect(aSpyBasedFunctionToCallForEachElement.calls.length).toBe(2);
-                    
-                    var firstCallArguments = aSpyBasedFunctionToCallForEachElement.calls[0].args;
+                    //note that calls[0] refers to an object in the array
+                    var firstCallArguments = aSpyBasedFunctionToCallForEachElement.calls[0].args;  
                     expect(firstCallArguments[0]).toBe(1);
                     expect(firstCallArguments[1]).toBe(0);
                     expect(firstCallArguments[2]).toBe(collection);
@@ -307,40 +276,25 @@ describe('Collection', function() {
                     expect(secondCallArguments[0]).toBe(2);
                     expect(secondCallArguments[1]).toBe(1);
                     expect(secondCallArguments[2]).toBe(collection);
-                    
-                    //hope that helps! Also, what you can do is take this one test at a time. As soon as you think you have a sensible test
-                    //but you find you are repeating something you did in a previous test, that is when you "extract" the common
-                    //stuff up to the nearest common 'beforeEach', and if one does not exist at the closest common ancestor describe block
-                    //just create it. For example, both of the 'it' blocks in this 'describe' block will have some stuff in common -
-                    //they both have a spy that must return false before getting to the end. so that could probably go in a beforeEach
-                    //within this describe block but before the it blocks!
-                    
-                    //LUV MY SWEETIE
-                    
-                    //xoxoxoxoxoxoxooxo!
-                  
-                });
-                it('and the forEach method itself returns false, as in answering the question "Did you get through each?"', function() {
-                    
                 });
             });
-            describe('each time it calls f for a particular element e in the collection', function() {
-                it('passes that element e as the first parameter', function() {
+            // describe('each time it calls f for a particular element e in the collection', function() {
+            //     it('passes that element e as the first parameter', function() {
                     
-                });
-                it('passes the index of that element e as the second parameter', function() {
+            //     });
+            //     it('passes the index of that element e as the second parameter', function() {
                     
-                });
-                it('passes a reference to the collection object itself as the third parameter', function() {
+            //     });
+            //     it('passes a reference to the collection object itself as the third parameter', function() {
                     
-                });
-                it('still works even if the particular function f declares fewer than three parameters', function() {
-                    //all javascript functions can be passed more arguments than they declare. more on that later.
-                });
-            });
+            //     });
+            //     it('still works even if the particular function f declares fewer than three parameters', function() {
+            //         //all javascript functions can be passed more arguments than they declare. more on that later.
+            //     });
+            // });
             describe('finally, if f does not return false for ANY elements in the collection', function() {
                 it('the forEach function returns true, as in answering the question "Did you get through each?"', function() {
-                    
+                    //Do Red, Green, Refactor Cycle
                 });
             });
         });
