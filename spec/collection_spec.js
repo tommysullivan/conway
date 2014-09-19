@@ -294,6 +294,8 @@ describe('Collection', function() {
             // });
             describe('finally, if f does not return false for ANY elements in the collection', function() {
                 it('the forEach function returns true, as in answering the question "Did you get through each?"', function() {
+                    var aSpyBasedFunctionToCallForEachElement = jasmine.createSpy();
+                    expect(collection.forEach(aSpyBasedFunctionToCallForEachElement)).toBeTruthy();
                     //Do Red, Green, Refactor Cycle
                 });
             });
