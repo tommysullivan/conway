@@ -245,28 +245,24 @@ describe('Collection', function() {
             }); 
         });
     });
-    
-    //SWEETIE - I am gonna leave to go biking now. These tests are not finished, but hopefully they way it is broken out is better.
-    //if it is ok you can give it a shot at implementing if you'd like, using SPIES (see jasmine documentation) and/or we can
-    //try to do that together via Skype!! :)
     describe('forEach(f)', function() {
         describe('where f is a function f(e, index, collection)', function() {
+            var aSpyBasedFunctionToCallForEachElement, returnValue;
+            beforeEach(function() {
+                aSpyBasedFunctionToCallForEachElement = jasmine.createSpy();
+            })
             describe('and f returns false for some element eF in the collection', function() {
-                var aSpyBasedFunctionToCallForEachElement, returnValue;
-                
                 beforeEach(function() {
-                    aSpyBasedFunctionToCallForEachElement = jasmine.createSpy();
                     aSpyBasedFunctionToCallForEachElement.andCallFake(function(e,i,c) { return i < 1; });
                     returnValue = collection.forEach(aSpyBasedFunctionToCallForEachElement);
                 });
                 
-                it('and the forEach method itself returns false', function() {
+                it('returns false', function() {
                     expect(returnValue).toBeFalsy();
                 });
                 
                 it('calls f once and exactly once for each element in the collection up to and including eF, but not after', function() {
                     expect(aSpyBasedFunctionToCallForEachElement.calls.length).toBe(2);
-                    //note that calls[0] refers to an object in the array
                     var firstCallArguments = aSpyBasedFunctionToCallForEachElement.calls[0].args;  
                     expect(firstCallArguments[0]).toBe(1);
                     expect(firstCallArguments[1]).toBe(0);
@@ -278,25 +274,9 @@ describe('Collection', function() {
                     expect(secondCallArguments[2]).toBe(collection);
                 });
             });
-            // describe('each time it calls f for a particular element e in the collection', function() {
-            //     it('passes that element e as the first parameter', function() {
-                    
-            //     });
-            //     it('passes the index of that element e as the second parameter', function() {
-                    
-            //     });
-            //     it('passes a reference to the collection object itself as the third parameter', function() {
-                    
-            //     });
-            //     it('still works even if the particular function f declares fewer than three parameters', function() {
-            //         //all javascript functions can be passed more arguments than they declare. more on that later.
-            //     });
-            // });
             describe('finally, if f does not return false for ANY elements in the collection', function() {
                 it('the forEach function returns true, as in answering the question "Did you get through each?"', function() {
-                    var aSpyBasedFunctionToCallForEachElement = jasmine.createSpy();
                     expect(collection.forEach(aSpyBasedFunctionToCallForEachElement)).toBeTruthy();
-                    //Do Red, Green, Refactor Cycle
                 });
             });
         });
