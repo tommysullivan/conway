@@ -20,12 +20,11 @@ module.exports = function Collection(internalArray) {
             return indx < internalArray.length && indx >= 0 && indx === (indx|0);
         },
         map:function(mapperFunction){
-            var mappedArray = [];
-            function doThisForEachItemInCollection(currentItem, currentIndex, collection) {
-                mappedArray[currentIndex]=mapperFunction(currentItem, currentIndex, collection);    
-            }
-            this.forEach(doThisForEachItemInCollection);
-            return Collection(mappedArray);
+            var internalArrayForNewCollection = [];
+            this.forEach(function(currentItem, currentIndex, collection) {
+                internalArrayForNewCollection[currentIndex]=mapperFunction(currentItem, currentIndex, collection);    
+            });
+            return Collection(internalArrayForNewCollection);
         },
         remove:function(itemToRemove) {
             for(var j in internalArray) { 

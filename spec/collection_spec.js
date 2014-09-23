@@ -97,15 +97,15 @@ describe('Collection', function() {
     
     describe('map(f)', function() {
         it('should return a new Collection instance containing elements equal to f(e, i, c) for each element e at index i in c, where c is this Collection instance', function() {
-            function double(numberToDouble) { return numberToDouble * 2 }
-            var mockMap = jasmine.createSpy('mockMap');
-            mockMap.andCallFake(double);
-            var newCollection = collection.map(mockMap); 
-            expect(newCollection.toArray()).toEqual([2,4,6]);
-            expect(mockMap.calls[0].args).toEqual([1,0,collection]);
-            expect(mockMap.calls[1].args).toEqual([2,1,collection]);
-            expect(mockMap.calls[2].args).toEqual([3,2,collection]);
-            expect(mockMap.calls.length).toEqual(3);
+            var c = 0;
+            var mockMapperFunction = jasmine.createSpy();
+            mockMapperFunction.andCallFake(function() { return c++; });
+            var newCollection = collection.map(mockMapperFunction); 
+            expect(newCollection.toArray()).toEqual([0, 1, 2]);
+            expect(mockMapperFunction.calls[0].args).toEqual([1,0,collection]);
+            expect(mockMapperFunction.calls[1].args).toEqual([2,1,collection]);
+            expect(mockMapperFunction.calls[2].args).toEqual([3,2,collection]);
+            expect(mockMapperFunction.calls.length).toEqual(3);
         });
     });
     
