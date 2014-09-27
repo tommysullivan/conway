@@ -32,11 +32,19 @@ module.exports = function Collection(internalArray) {
             }
         },
         firstIndexOf:function(soughtItem){
-            for(var j = 0; j < internalArray.length; j++) {
-                 if (internalArray[j]==soughtItem) return j;
-            }
-            throw 'Error!';
+          var indexToBeReturned=-1;  
+          this.forEach(function(currentItem,currentIndex) {
+              if (currentItem==soughtItem) indexToBeReturned=currentIndex;  
+          });
+          if (indexToBeReturned==-1) throw 'Error';
+          return indexToBeReturned;
         },
+        //firstIndexOf:function(soughtItem){
+        //    for(var j = 0; j < internalArray.length; j++) {
+        //        if (internalArray[j]==soughtItem) return j;
+        //    }
+        //    throw 'Error!';
+        //},
         addCollection: function(collection){
             internalArray=internalArray.concat(collection.toArray());
         },
