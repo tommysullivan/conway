@@ -34,7 +34,10 @@ module.exports = function Collection(internalArray) {
         firstIndexOf:function(soughtItem){
           var indexToBeReturned=-1;  
           this.forEach(function(currentItem,currentIndex) {
-              if (currentItem==soughtItem) indexToBeReturned=currentIndex;  
+              if (currentItem==soughtItem){ 
+                indexToBeReturned=currentIndex;
+                return false;
+              }
           });
           if (indexToBeReturned==-1) throw 'Error';
           return indexToBeReturned;
