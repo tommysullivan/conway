@@ -59,6 +59,11 @@ describe('Pluralizer', function() {
             expect(pluralizer.complexity()).toBeLessThan(25); 
         }); 
     });
+    describe('number of rules', function() {
+        it('should be less than 10', function() {
+            expect(rulesCollection.length()).toBeLessThan(10);
+        }) 
+    });
 });
 
 // Double consonant + vowel => drop consonant + vowel
