@@ -104,6 +104,13 @@ module.exports = function Collection(internalArray) {
         },
         toString: function() {
             return '['+internalArray.join(',')+']';
+        },
+        fold: function(operator, identityForOperation) {
+            var fold = identityForOperation;
+            this.forEach(function(item) {
+                fold = operator(fold, item); 
+            });
+            return fold;
         }
     }
 }

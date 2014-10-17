@@ -15,6 +15,9 @@ module.exports = function(pluralRules) {
                 );
             }
             return plurals.first();
+        },
+        complexity: function() {
+            return pluralRules.map(function(rule) { return rule.complexity() }).fold(function(a,b) { return a + b }, 0);
         }
     }
 }

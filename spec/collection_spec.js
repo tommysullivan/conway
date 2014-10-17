@@ -211,6 +211,17 @@ describe('Collection', function() {
         expect(sum).toBe(9);
     });
     
+    describe('fold', function() {
+        function add(a,b) { return a + b }
+        function multiply(a,b) { return a * b }
+        collection = Collection([1,2,3,4,5]);
+        expect(collection.fold(add, 0)).toBe(15);
+        expect(collection.fold(multiply, 1)).toBe(120);
+        
+        collection = Collection([]);
+        expect(collection.fold(multiply, 1)).toBe(1);
+    });
+    
     describe('forEach(f, rN?)', function() {
         
         describe('where f is a function f(e, index, collection)', function() {

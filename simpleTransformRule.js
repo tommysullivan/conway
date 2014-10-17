@@ -11,6 +11,9 @@ module.exports = function(suffix, newSuffix) {
         },
         toString: function() {
             return "SimpleTransformRule "+suffix+" => "+newSuffix;
+        },
+        complexity: function() {
+            return suffix.length + newSuffix.length;
         }
     }
 }

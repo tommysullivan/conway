@@ -21,7 +21,7 @@ describe('Pluralizer', function() {
         ['tehdas', 'tehtaat']
     ]
     var rulesCollection = Collection([
-       SimpleTransformRule('kki', 'ki'),
+       SimpleTransformRule('ki', 'i'),
        SimpleTransformRule('ttu', 'tu'),
        SimpleTransformRule('mpu', 'mmu'),
        SimpleTransformRule('te', 'ttee'),
@@ -52,6 +52,11 @@ describe('Pluralizer', function() {
                     }); 
                 });   
             });
+        }); 
+    });
+    describe('complexity', function() {
+        it('should be less than 25', function() {
+            expect(pluralizer.complexity()).toBeLessThan(25); 
         }); 
     });
 });
