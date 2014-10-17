@@ -4,7 +4,7 @@ module.exports = function(pluralRules) {
             var applicableRules = pluralRules.filter(function(rule) {
                 return rule.applies(stem);
             });
-            if(applicableRules.isEmpty()) throw new Error("Could not find rule for pluralizing stem "+stem);
+            if(applicableRules.isEmpty()) return stem + 't';
             var plurals = applicableRules.map(function(rule) {
                 return rule.apply(stem)+'t';
             });

@@ -32,10 +32,14 @@ describe('Pluralizer', function() {
         ['verstas', 'verstaat'],
         ['aie', 'aikeet'],
         ['vuode', 'vuoteet'],
-        ['susi', 'sudet']
+        ['susi', 'sudet'],
+        ['kulta', 'kullat'],
+        ['Tommi', 'Tommit'],
+        ['tietokone', 'tietokoneet'],
+        ['auer', 'autereet'],
     ]
     var rulesCollection = Collection([
-       SimpleTransformRule('ki', 'i'),
+       SimpleTransformRule('kki', 'ki'),
        SimpleTransformRule('ttu', 'tu'),
        SimpleTransformRule('mpu', 'mmu'),
        SimpleTransformRule('te', 'ttee'),
@@ -53,17 +57,19 @@ describe('Pluralizer', function() {
        SimpleTransformRule('gas', 'kaa'),
        SimpleTransformRule('si', 'de'),
        SimpleTransformRule('t', 'e'),
-       SimpleTransformRule('ki', 'je'),
-       SimpleTransformRule('s', 'kse'),
-       SimpleTransformRule('e', 'ee'),
+       SimpleTransformRule('lki', 'lje'),
+       SimpleTransformRule('us', 'ukse'),
+       SimpleTransformRule('ne', 'nee'),
        SimpleTransformRule('ntä', 'nnä'),
-       SimpleTransformRule('nen', 'set'),
+       SimpleTransformRule('nen', 'se'),
        SimpleTransformRule('re', 'tee'),
        SimpleTransformRule('nti', 'nni'),
        SimpleTransformRule('tas', 'taa'),
-       SimpleTransformRule('ie', 'kee'),
+       SimpleTransformRule('ie', 'ikee'),
        SimpleTransformRule('de', 'tee'),
-       SimpleTransformRule('si', 'de')
+       SimpleTransformRule('si', 'de'),
+       SimpleTransformRule('ta', 'la'),
+       SimpleTransformRule('er', 'teree'),
     ]);
     var pluralizer;
     beforeEach(function() {
