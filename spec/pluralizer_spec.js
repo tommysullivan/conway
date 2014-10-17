@@ -18,7 +18,21 @@ describe('Pluralizer', function() {
         ['hintalappu', 'hintalaput'],
         ['kenkä', 'kengät'],
         ['saapas', 'saappaat'],
-        ['tehdas', 'tehtaat']
+        ['tehdas', 'tehtaat'],
+        ['kangas', 'kankaat'],
+        ['täysi', 'täydet'],
+        ['airut', 'airuet'],
+        ['jälki', 'jäljet'],
+        ['lataus', 'lataukset'],
+        ['vene', 'veneet'],
+        ['häntä', 'hännät'],
+        ['melominen', 'melomiset'],
+        ['kaarre', 'kaarteet'],
+        ['pahoinvointi', 'pahoinvoinnit'],
+        ['verstas', 'verstaat'],
+        ['aie', 'aikeet'],
+        ['vuode', 'vuoteet'],
+        ['susi', 'sudet']
     ]
     var rulesCollection = Collection([
        SimpleTransformRule('ki', 'i'),
@@ -36,6 +50,20 @@ describe('Pluralizer', function() {
        SimpleTransformRule('kä', 'gä'),
        SimpleTransformRule('pas', 'ppaa'),
        SimpleTransformRule('das', 'taa'),
+       SimpleTransformRule('gas', 'kaa'),
+       SimpleTransformRule('si', 'de'),
+       SimpleTransformRule('t', 'e'),
+       SimpleTransformRule('ki', 'je'),
+       SimpleTransformRule('s', 'kse'),
+       SimpleTransformRule('e', 'ee'),
+       SimpleTransformRule('ntä', 'nnä'),
+       SimpleTransformRule('nen', 'set'),
+       SimpleTransformRule('re', 'tee'),
+       SimpleTransformRule('nti', 'nni'),
+       SimpleTransformRule('tas', 'taa'),
+       SimpleTransformRule('ie', 'kee'),
+       SimpleTransformRule('de', 'tee'),
+       SimpleTransformRule('si', 'de')
     ]);
     var pluralizer;
     beforeEach(function() {
