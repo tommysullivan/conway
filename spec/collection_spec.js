@@ -186,6 +186,11 @@ describe('Collection', function() {
         }); 
     });
     
+    describe('unique()', function() {
+        collection = Collection([1,2,2,3,4,2,5,3,6]);
+        expect(collection.unique().toArray()).toEqual([1,2,3,4,5,6]);
+    });
+    
     describe('length()', function() {
         it('returns the number of elements in the collection', function() {
             expect(collection.length()).toBe(3);

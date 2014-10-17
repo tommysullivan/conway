@@ -85,6 +85,25 @@ module.exports = function Collection(internalArray) {
         },
         length: function() {
             return internalArray.length;
+        },
+        isEmpty: function() {
+            return this.length()==0;
+        },
+        first: function() {
+            return this.get(0);
+        },
+        unique: function() {
+            var uniqueCollection = Collection([]);
+            this.forEach(function(element) {
+                if(!uniqueCollection.contains(element)) uniqueCollection.add(element);
+            });
+            return uniqueCollection;
+        },
+        join: function(delimiter) {
+            return internalArray.join(delimiter);
+        },
+        toString: function() {
+            return '['+internalArray.join(',')+']';
         }
     }
 }
