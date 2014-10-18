@@ -1,10 +1,9 @@
 {
-  "name": "sweeties-first-project",
-  "version": "0.0.0",
-  "description": "A project for sweetie to learn TDD with Node.js",
-  "main": "server.js",
-  "repository": "",
-  "author": "Esa-Matti Tastula <tastulae@mail.usf.edu>",
+  "name": "conways-game-of-life",
+  "version": "0.0.1",
+  "description": "Implementing conways game of life in javascript",
+  "main": "conway.js",
+  "authors": ["Tommy Sullivan <tom@tommysullivan.me>", "Esa-Matti Tastula <tastulae@mail.usf.edu>"],
   "dependencies": {
     "async": "~0.2.8",
     "express": "~3.2.4",
