@@ -4,10 +4,5 @@
   "description": "Implementing conways game of life in javascript",
   "main": "conway.js",
   "authors": ["Tommy Sullivan <tom@tommysullivan.me>", "Esa-Matti Tastula <tastulae@mail.usf.edu>"],
-  "dependencies": {
-    "async": "~0.2.8",
-    "express": "~3.2.4",
-    "socket.io": "~0.9.14",
-    "jasmine-node": "1.14.5"
-  }
+  "dependencies": {}
 }
